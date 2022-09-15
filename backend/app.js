@@ -1,45 +1,48 @@
+// All Const needed ----------------------------------
 const mongoose = require('mongoose');
-
 const express = require('express');
-const User = require('./models/User');
-
 const app = express();
+
+const userRoutes = require('./routes/user');
+
+// Mongoose connection -------------------
 mongoose.connect('mongodb+srv://NDIJOUX:uvYGdWfBB7Mb010y@cluster0.puphsd4.mongodb.net/?retryWrites=true&w=majority',
     { useNewUrlParser: true,
       useUnifiedTopology: true})
     .then(() => console.log('Connexion à MongoDB réussie !'))
     .catch(() => console.log('Connexion à MongoDB échouée !'));
 
+
+// CORS Management -----------------------------------
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
+    );
+    res.setHeader(
+      "Access-Control-Allow-Methods",
+      "GET, POST, PUT, DELETE, OPTIONS, PATCH"
+    );
+    next();
+  });
+
+// Express app creation ------
 app.use(express.json());
 
-// ajouter les methodes 
+/*// Receveing control
 app.use((req, res, next) =>{
     console.log('Requête reçue !');
     next();
 });
 
-/*app.post('/register', (req, res, next) => {
-    //Check if the email provided is not already registered
-    // traitement à faire dans le controleur user + token + JWT
-    User.findOne({ email: req.body.email }).then((user) => {
-        if (user) {
-            // Return a 400 error if the email adress already exists
-            return res.status(400).json({ email: "Cette adresse mail est déjà utilisée"});
-        } else {
-            // Otherwise create a new user
-            const newUser = new User ({
-                email: req.body.email,
-                password: req.body.password,
-            });
-            newUser.save()
-            return res.status(200).json({msg: newUser})
-        }
-    })
-})*/
-
-
+// Sending control
 app.use((req, res) =>{
     console.log('Réponse envoyée avec succés');
-});
+});*/
 
+// All ROUTES --------------------
+app.use('/api/auth', userRoutes);
+
+// Export ------------------------
 module.exports = app;

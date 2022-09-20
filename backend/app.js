@@ -5,6 +5,7 @@ const app = express();
 const path = require('path');
 
 const userRoutes = require('./routes/user');
+const { runInContext } = require('vm');
 
 // Mongoose connection -------------------
 mongoose.connect('mongodb+srv://NDIJOUX:uvYGdWfBB7Mb010y@cluster0.puphsd4.mongodb.net/?retryWrites=true&w=majority',
@@ -30,6 +31,8 @@ app.use((req, res, next) => {
 
 // Express app creation ------
 app.use(express.json());
+
+
 
 /*// Receveing control
 app.use((req, res, next) =>{

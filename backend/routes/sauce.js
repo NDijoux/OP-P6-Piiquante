@@ -3,8 +3,10 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
 const multer = require('../middleware/multer-config');
-//const saucesCtrl = require('');
+const saucesCtrl = require('../controllers/sauce');
 //--------------------------------------
 // SAUCES routes -----------------------
+router.get('/', auth, saucesCtrl.allSauces);
+router.get('/:id', auth, saucesCtrl.selectedSauce);
 //--------------------------------------
-//module.exports = router;*/
+module.exports = router;*/

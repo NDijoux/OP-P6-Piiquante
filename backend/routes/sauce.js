@@ -1,4 +1,4 @@
-/*// All const required --------------
+// All const required --------------
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
@@ -8,5 +8,6 @@ const saucesCtrl = require('../controllers/sauce');
 // SAUCES routes -----------------------
 router.get('/', auth, saucesCtrl.allSauces);
 router.get('/:id', auth, saucesCtrl.selectedSauce);
+router.post('/', auth, multer, saucesCtrl.createSauce);
 //--------------------------------------
-module.exports = router;*/
+module.exports = router;

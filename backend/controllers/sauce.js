@@ -25,6 +25,12 @@ exports.createSauce = (req, res, next) => {
     const extractSauce = JSON.parse(req.body.sauce);
     delete extractSauce._id;
     delete extractSauce.userId;
+    /*const sauceBase ={
+        likes: 0,
+        dislikes: 0,
+        liked: [],
+        disliked: []
+    }*/
    if (
         req.file.mimetype === "image/jpeg" ||
         req.file.mimetype === "image/png" ||
@@ -89,4 +95,7 @@ exports.deleteSauce = (req, res, next) => {
         });
  };
 
-// Like SAUCE -----*/
+// Like SAUCE -----
+/*exports.likeSauce = (req, res, next) => {
+    Sauce.findOne({_id: req.params.id})
+}*/

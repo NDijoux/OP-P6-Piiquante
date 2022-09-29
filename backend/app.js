@@ -6,10 +6,10 @@ const path = require('path');
 
 const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
-const { runInContext } = require('vm');
+//const { runInContext } = require('vm');
 
 // Mongoose connection -------------------
-mongoose.connect('mongodb+srv://NDIJOUX:uvYGdWfBB7Mb010y@cluster0.puphsd4.mongodb.net/?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://NDIJOUX:uvYGdWfBB7Mb010y@cluster0.g8748wf.mongodb.net/?retryWrites=true&w=majority',
     { useNewUrlParser: true,
       useUnifiedTopology: true})
     .then(() => console.log('Connexion à MongoDB réussie !'))

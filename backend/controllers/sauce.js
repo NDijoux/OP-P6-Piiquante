@@ -25,33 +25,20 @@ exports.createSauce = (req, res, next) => {
     const extractSauce = JSON.parse(req.body.sauce);
     delete extractSauce._id;
     delete extractSauce.userId;
-    /*const sauceBase ={
-        likes: 0,
-        dislikes: 0,
-        liked: [],
-        disliked: []
-    }*/
-   if (
-        req.file.mimetype === "image/jpeg" ||
-        req.file.mimetype === "image/png" ||
-        req.file.mimetype === "image/jpg"
-      ) {
-        const sauceCreated = new Sauce({
-            //destructuring ES6 : https://www.youtube.com/watch?v=NIq3qLaHCIs
-            ...extractSauce,
-            userId: req.auth.userId,
-            imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}` 
-        });
-        if (sauceCreated.heat < 0 || sauceCreated.heat > 10) {
-            sauceCreated.heat = 0;
-        }
-        sauceCreated
-        .save()
-        .then(() => res.status(201).json({message: 'Sauce saved'}))
-        .catch((error) => res.status(400).json({error}));
-      } else {
-        console.log('sauce creation failed');
-      }
+
+    const sauceCreated = new Sauce({
+        //destructuring ES6 : https://www.youtube.com/watch?v=NIq3qLaHCIs
+        ...extractSauce,
+        userId: req.auth.userId,
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+    });
+    if (sauceCreated.heat < 0 || sauceCreated.heat > 10) {
+        sauceCreated.heat = 0;
+    }
+    sauceCreated
+    .save()
+    .then(() => res.status(201).json({message: 'Sauce saved'}))
+    .catch((error) => res.status(400).json({error}));
 };
 
 // Modify SAUCE ----
@@ -96,6 +83,38 @@ exports.deleteSauce = (req, res, next) => {
  };
 
 // Like SAUCE -----
-/*exports.likeSauce = (req, res, next) => {
-    Sauce.findOne({_id: req.params.id})
-}*/
+exports.likeSauce = (req, res, next) => {
+    Sauce.findOne({ _id: req.params.id })
+        .then(sauce => {
+            const voters = req.body.userId;
+            const likeValue = req.body.like
+
+            if(!sauce.usersLiked.includes(voters) && likeValue === 1){
+                sauce.usersLiked.push(voters);
+                sauce.likes += 1;
+            } else if (sauce.usersLiked.includes(voters) && likeValue === 0){
+                sauce.usersLiked.pull(voters);
+                sauce.likes -= 1;
+            } else if (!sauce.usersDisliked.includes(voters) && likeValue === -1){
+                sauce.usersDisliked.push(voters);
+                sauce.dislikes += 1;
+            } else if (sauce.usersDisliked.includes(voters) && likeValue === 0){
+                sauce.usersDisliked.pull(voters);
+                sauce.dislikes -= 1;
+            } else {
+                console.log('Vote unauthorized')
+            }
+            Sauce.updateOne(
+                { _id: req.params.id },
+                {
+                    likes: sauce.likes,
+                    dislikes: sauce.dislikes,
+                    usersLiked: sauce.usersLiked,
+                    usersDisliked: sauce.usersDisliked,
+                }
+                )
+            .then(() => res.status(201).json({ message: 'Your vote has been taken into consideration'}))
+            .catch((error) => res.status(400).json({error}));
+        })
+        .catch(error => res.status(500).json({ error }));
+};

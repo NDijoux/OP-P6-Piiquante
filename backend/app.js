@@ -41,3 +41,6 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 
 // Export ------------------------
 module.exports = app;
+
+
+// rajouter dovenv pour sécurisation https://ichi.pro/fr/gerez-les-variables-d-environnement-dans-votre-application-nodejs-avec-dotenv-90198954812747

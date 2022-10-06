@@ -6,7 +6,7 @@ const path = require('path');
 
 const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
-//const { runInContext } = require('vm');
+
 
 // Mongoose connection -------------------
 mongoose.connect('mongodb+srv://NDIJOUX:uvYGdWfBB7Mb010y@cluster0.g8748wf.mongodb.net/?retryWrites=true&w=majority',
@@ -33,18 +33,6 @@ app.use((req, res, next) => {
 // Express app creation ------
 app.use(express.json());
 
-
-
-/*// Receveing control
-app.use((req, res, next) =>{
-    console.log('Requête reçue !');
-    next();
-});
-
-// Sending control
-app.use((req, res) =>{
-    console.log('Réponse envoyée avec succés');
-});*/
 
 // All ROUTES --------------------
 app.use('/api/auth', userRoutes);

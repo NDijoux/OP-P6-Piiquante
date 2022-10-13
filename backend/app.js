@@ -2,20 +2,24 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
+const helmet = require('helmet');
 const path = require('path');
 
 const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
 
+require('dotenv').config({ path: "./configenv"});
+require('./config/mgdb');
 
-// Mongoose connection -------------------
+
+/*/ Mongoose connection -------------------
 mongoose.connect('mongodb+srv://NDIJOUX:uvYGdWfBB7Mb010y@cluster0.g8748wf.mongodb.net/?retryWrites=true&w=majority',
     { useNewUrlParser: true,
       useUnifiedTopology: true})
     .then(() => console.log('Connexion à MongoDB réussie !'))
     .catch(() => console.log('Connexion à MongoDB échouée !'));
 
-
+*/
 // CORS Management -----------------------------------
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -43,4 +47,3 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 module.exports = app;
 
 
-// rajouter dovenv pour sécurisation https://ichi.pro/fr/gerez-les-variables-d-environnement-dans-votre-application-nodejs-avec-dotenv-90198954812747

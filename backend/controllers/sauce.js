@@ -87,7 +87,7 @@ exports.likeSauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id })
         .then(sauce => {
             const voters = req.body.userId;
-            const likeValue = req.body.like
+            const likeValue = req.body.like;
 
             if(!sauce.usersLiked.includes(voters) && likeValue === 1){
                 sauce.usersLiked.push(voters);
@@ -118,3 +118,42 @@ exports.likeSauce = (req, res, next) => {
         })
         .catch(error => res.status(500).json({ error }));
 };
+
+/*exports.likeSauce = (req, res, next) => {
+    const voters = req.body.userId;
+    const likeValue = req.body.like;
+    const sauceId = req.params.id;
+
+    if (likeValue === 1) {
+        Sauce.findOne({_id: sauceId}, {$inc:{likes: 1}, $push: {usersLiked: voters}})
+        .then(() => res.status(200).json({ message: "Sauce Liked" }))
+        .catch((error) => res.status(400).json({ error }));
+    } else if (likeValue === -1) {
+        Sauce.findOne({_id: sauceId}, {$inc:{dislikes: 1}, $push: {usersDisliked: voters}})
+        .then(() => res.status(200).json({ message: "Sauce Disliked" }))
+        .catch((error) => res.status(400).json({ error }));
+    } else {
+        Sauce.findOne({_id: sauceId}) 
+        .then (sauce => {
+            if (sauce.usersLiked.includes(voters) && likeValue === 0) {
+                sauce.usersLiked.pull(voters);
+                sauce.likes -= 1;
+            } else if (sauce.usersDisliked.includes(voters) && likeValue === 0) {
+                sauce.usersDisliked.pull(voters);
+                sauce.dislikes -= 1;
+            }
+        })
+        .catch(error => res.status(500).json({ error }));
+    } Sauce.updateOne(
+        { _id: sauceId },
+        {
+            likes: sauce.likes,
+            dislikes: sauce.dislikes,
+            usersLiked: sauce.usersLiked,
+            usersDisliked: sauce.usersDisliked,
+        }
+        )
+    .then(() => res.status(201).json({ message: 'Your vote has been taken into consideration'}))
+    .catch((error) => res.status(400).json({error})); 
+
+}*/

@@ -14,14 +14,6 @@ require('./config/mgdb');
 //app.use(helmet());
 
 
-/*// Mongoose connection -------------------
-mongoose.connect('mongodb+srv://NDIJOUX:uvYGdWfBB7Mb010y@cluster0.g8748wf.mongodb.net/?retryWrites=true&w=majority',
-    { useNewUrlParser: true,
-      useUnifiedTopology: true})
-    .then(() => console.log('Connexion à MongoDB réussie !'))
-    .catch(() => console.log('Connexion à MongoDB échouée !'));
-*/
-
 // CORS Management -----------------------------------
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
